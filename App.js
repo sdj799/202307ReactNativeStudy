@@ -5,7 +5,13 @@ import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export default function App() {
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [todoGoals, setTodoGoals] = useState([]);
+
+  //할 일 추가 모달을 띄워주는 함수
+  const startAddGoalHandler = () => {
+    setModalIsVisible(true);
+  };
 
   //버튼을 누르면 할 일 목록을 추가하는 함수
   const addGoalHandler = (enteredGoalText) => {
@@ -27,7 +33,12 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title='할 일 추가하기!'
+        color='#5e0acc'
+        onPress={startAddGoalHandler}
+      />
+      {modalIsVisible && <GoalInput onAddGoal={addGoalHandler} />}
       <View style={styles.goalsContainer}>
         {/* ScrollView는 전체 화면이 렌더링 될 때 안의 항목들을 전부 렌더링합니다
             이로 인해, 성능 저하가 발생할 수 있습니다.
@@ -40,6 +51,7 @@ export default function App() {
             return (
               <GoalItem
                 text={itemData.item.text}
+                id={itemData.item.id}
                 onDeleteItem={deleteGoalHandler}
               />
             );
